@@ -27,6 +27,13 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
+             "Modules\\": "Modules/",
+            "Modules\\Auth\\Providers\\":"Modules/Auth/app/Providers",
+            "Modules\\Tenants\\Providers\\":"Modules/Tenants/app/Providers",
+            "Modules\\Teams\\Providers\\":"Modules/Teams/app/Providers",
+            "Modules\\Users\\Providers\\":"Modules/Users/app/Providers",
+            "Modules\\Booking\\Providers\\":"Modules/Booking/app/Providers",
+            "Modules\\Availability\\Providers\\":"Modules/Availability/app/Providers",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
