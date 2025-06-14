@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
+use Modules\Tenants\App\Models\Tenant;
 use Stancl\Tenancy\Database\Models\Domain;
-use Stancl\Tenancy\Database\Models\Tenant;
+
 
 return [
     'tenant_model' => Tenant::class,
@@ -19,6 +20,7 @@ return [
     'central_domains' => [
         '127.0.0.1',
         'localhost',
+        env('APP_URL', 'localhost'),
     ],
 
     /**
@@ -51,7 +53,7 @@ return [
          * Tenant database names are created like this:
          * prefix + tenant_id + suffix.
          */
-        'prefix' => 'tenant',
+        'prefix' => env('TENANCY_DB_PREFIX', 'tenants_'),
         'suffix' => '',
 
         /**
@@ -88,7 +90,7 @@ return [
      * You can clear cache selectively by specifying the tag.
      */
     'cache' => [
-        'tag_base' => 'tenant', // This tag_base, followed by the tenant_id, will form a tag that will be applied on each cache call.
+        'tag_base' => 'rgb_', // This tag_base, followed by the tenant_id, will form a tag that will be applied on each cache call.
     ],
 
     /**
@@ -99,7 +101,7 @@ return [
         /**
          * Each disk listed in the 'disks' array will be suffixed by the suffix_base, followed by the tenant_id.
          */
-        'suffix_base' => 'tenant',
+        'suffix_base' => 'app/public/',
         'disks' => [
             'local',
             'public',
@@ -113,8 +115,8 @@ return [
          */
         'root_override' => [
             // Disks whose roots should be overridden after storage_path() is suffixed.
-            'local' => '%storage_path%/app/',
-            'public' => '%storage_path%/app/public/',
+            'local' => '%storage_path%',
+            'public' => '%storage_path%',
         ],
 
         /**
@@ -135,7 +137,7 @@ return [
          * disable asset() helper tenancy and explicitly use tenant_asset() calls in places
          * where you want to use tenant-specific assets (product images, avatars, etc).
          */
-        'asset_helper_tenancy' => true,
+        'asset_helper_tenancy' => false,
     ],
 
     /**
@@ -185,7 +187,7 @@ return [
      */
     'migration_parameters' => [
         '--force' => true, // This needs to be true to run migrations in production.
-        '--path' => [database_path('migrations/tenant')],
+        '--path' => [base_path('Modules/*/database/migrations/tenant')],
         '--realpath' => true,
     ],
 
@@ -194,6 +196,6 @@ return [
      */
     'seeder_parameters' => [
         '--class' => 'DatabaseSeeder', // root seeder class
-        // '--force' => true, // This needs to be true to seed tenant databases in production
+        // '--force' => true,
     ],
 ];
