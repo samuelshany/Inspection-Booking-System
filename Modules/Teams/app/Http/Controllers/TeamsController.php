@@ -2,55 +2,57 @@
 
 namespace Modules\Teams\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
+use Modules\Teams\Models\Team;
+use Modules\Teams\Services\TeamService;
 
 class TeamsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(
+        private TeamService $teamService
+    ) {}
+
+    public function index(): JsonResponse
     {
-        return view('teams::index');
+        $teams = Team::with('availabilities')->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $teams
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request): JsonResponse
     {
-        return view('teams::create');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $team = $this->teamService->createTeam($validator->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Team created successfully',
+            'data' => $team
+        ], 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {}
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function show(Team $team): JsonResponse
     {
-        return view('teams::show');
+        return response()->json([
+            'status' => 'success',
+            'data' => $team->load('availabilities')
+        ]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('teams::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
 }
