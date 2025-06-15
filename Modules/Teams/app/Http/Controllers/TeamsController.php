@@ -13,7 +13,11 @@ class TeamsController extends Controller
 {
     public function __construct(
         private TeamService $teamService
-    ) {}
+    ) {
+       
+    $this->middleware('admin')->only(['store', 'destroy','update']);
+}
+    
 
     public function index(): JsonResponse
     {
