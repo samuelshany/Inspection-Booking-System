@@ -12,7 +12,7 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::middleware(['auth:sanctum'])->prefix('v1/teamAvailability')->group(function () {
-        Route::post('store/{team}', [AvailabilityController::class, 'setTeamAvailability']);
-        Route::post('generateSlots/{team}', [TimeSlotController::class, 'generateSlots']);
+        Route::post('{team}/availability', [AvailabilityController::class, 'setTeamAvailability'])->middleware('admin');
+        Route::get('{team}/generateSlots', [TimeSlotController::class, 'generateSlots']);
     });
 });
