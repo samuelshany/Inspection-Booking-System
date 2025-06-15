@@ -23,6 +23,7 @@ class TimeSlotService
 
         // Get existing bookings for the date range and group by date (Y-m-d)
         $existingBookings = Booking::where('team_id', $team->id)
+            ->where('status', 'confirmed')
             ->whereBetween('booking_date', [$startDate->toDateString(), $endDate->toDateString()])
             ->get()
             ->groupBy(function ($booking) {
@@ -38,7 +39,7 @@ class TimeSlotService
                 $availability = $availabilities[$dayOfWeek];
 
                 $bookingsForDate = collect($existingBookings->get($currentDate->format('Y-m-d'), []));
-                
+
                 $dateSlots = $this->generateDaySlots(
                     $currentDate,
                     $availability,

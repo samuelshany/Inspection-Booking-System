@@ -18,9 +18,9 @@ class AvailabilityController extends Controller
     public function setTeamAvailability(Request $request, Team $team): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            
+
             'availabilities' => 'required|array',
-            'availabilities.*.booking_date' => 'required|date_format:Y-m-d',
+           // 'availabilities.*.booking_date' => 'required|date_format:Y-m-d',
             'availabilities.*.start_time' => 'required|date_format:H:i',
             'availabilities.*.end_time' => 'required|date_format:H:i|after:availabilities.*.start_time',
         ]);
