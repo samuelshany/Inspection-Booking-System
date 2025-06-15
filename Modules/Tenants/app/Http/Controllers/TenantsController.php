@@ -40,11 +40,12 @@ class TenantsController extends Controller
 
         ]);
 
-
         $tenant->domains()->create([
-        'domain' => $request->domain,
+        'domain' => $request->tenant_id.'localhost',
         ]);
-   
+        Artisan::call('tenancy:migrate-tenant', [
+            'tenant' => $tenant->id,
+        ]);
         return redirect()->route('tenants.create')->with('success', 'Tenant created!');
     }
 
