@@ -17,7 +17,7 @@ class AvailabilityService
         foreach ($availabilities as $availability) {
             $createdAvailabilities[] = TeamAvailability::create([
                 'team_id' => $team->id,
-                'day_of_week' => $availability['day_of_week'],
+                'booking_date' => $availability['booking_date'],
                 'start_time' => $availability['start_time'],
                 'end_time' => $availability['end_time'],
                 'is_active' => true,

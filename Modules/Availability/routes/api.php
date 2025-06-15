@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Availability\Http\Controllers\AvailabilityController;
+use Modules\Availability\Http\Controllers\TimeSlotController;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -12,5 +13,6 @@ Route::middleware([
 ])->group(function () {
     Route::middleware(['auth:sanctum'])->prefix('v1/teamAvailability')->group(function () {
         Route::post('store/{team}', [AvailabilityController::class, 'setTeamAvailability']);
+        Route::post('generateSlots/{team}', [TimeSlotController::class, 'generateSlots']);
     });
 });

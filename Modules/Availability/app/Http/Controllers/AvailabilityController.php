@@ -20,7 +20,7 @@ class AvailabilityController extends Controller
         $validator = Validator::make($request->all(), [
             
             'availabilities' => 'required|array',
-            'availabilities.*.day_of_week' => 'required|integer|between:0,6',
+            'availabilities.*.booking_date' => 'required|date_format:Y-m-d',
             'availabilities.*.start_time' => 'required|date_format:H:i',
             'availabilities.*.end_time' => 'required|date_format:H:i|after:availabilities.*.start_time',
         ]);

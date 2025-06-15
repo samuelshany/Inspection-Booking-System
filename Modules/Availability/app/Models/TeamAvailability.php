@@ -13,14 +13,14 @@ class TeamAvailability extends Model
 
     protected $fillable = [
         'team_id',
-        'day_of_week',
+        'booking_date',
         'start_time',
         'end_time',
         'is_active',
     ];
 
     protected $casts = [
-        'day_of_week' => 'integer',
+        
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
         'is_active' => 'boolean',
