@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Modules\Booking\Http\Requests\BookingRequest;
 use Modules\Booking\Models\Booking;
 use Modules\Booking\Services\BookingService;
 
@@ -17,10 +18,16 @@ class BookingController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $bookings = Booking::with(['team', 'user'])
-            ->where('user_id', $request->user()->id)
-            ->orderBy('booking_date', 'desc')
-            ->get();
+        $user = $request->user();
+
+        $query = Booking::with(['team', 'user'])
+            ->orderBy('booking_date', 'desc');
+
+        if ($user->role !== 'admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        $bookings = $query->get();
 
         return response()->json([
             'status' => 'success',
@@ -28,27 +35,14 @@ class BookingController extends Controller
         ]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(BookingRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'team_id' => 'required|exists:teams,id',
-            'booking_date' => 'required|date|after_or_equal:today',
-            'start_time' => 'required|date_format:H:i:s',
-            'end_time' => 'required|date_format:H:i:s|after:start_time',
-            'notes' => 'nullable|string|max:500',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors()
-            ], 422);
-        }
+       
 
         try {
             $booking = $this->bookingService->createBooking(
                 $request->user(),
-                $validator->validated()
+                $request->validated()
             );
 
             return response()->json([
