@@ -31,6 +31,7 @@
             "Modules\\Auth\\Providers\\":"Modules/Auth/app/Providers",
             "Modules\\Auth\\Http\\Controllers\\":"Modules/Auth/app/Http/Controllers",
             "Modules\\Tenants\\Providers\\":"Modules/Tenants/app/Providers",
+            "Modules\\Tenants\\Tests\\":"Modules/Tenants/Tests",
             "Modules\\Tenants\\Http\\Controllers\\":"Modules/Tenants/app/Http/Controllers",
             "Modules\\Tenants\\Models\\":"Modules/Tenants/app/Models",
             "Modules\\Teams\\Providers\\":"Modules/Teams/app/Providers",
