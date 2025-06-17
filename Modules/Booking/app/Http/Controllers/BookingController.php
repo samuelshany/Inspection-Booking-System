@@ -35,14 +35,16 @@ class BookingController extends Controller
         ]);
     }
 
-    public function store(BookingRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
        
 
         try {
             $booking = $this->bookingService->createBooking(
                 $request->user(),
-                $request->validated()
+               $request instanceof BookingRequest
+                ? $request->validated()
+                : $request->all()
             );
 
             return response()->json([

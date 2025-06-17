@@ -9,7 +9,7 @@ use Modules\Teams\Models\Team;
 
 class BookingService
 {
-    public function createBooking(User $user, array $data): Booking
+    public function createBooking(?User $user, array $data): Booking
     {
         $team = Team::findOrFail($data['team_id']);
 
@@ -20,7 +20,7 @@ class BookingService
         $this->checkForConflicts($team, $data);
 
         return Booking::create([
-            'user_id' => $user->id,
+            'user_id' => $user->id??$data['user'],
             'team_id' => $data['team_id'],
             'booking_date' => $data['booking_date'],
             'start_time' => $data['start_time'],
