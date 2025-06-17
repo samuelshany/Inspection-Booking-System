@@ -43,8 +43,15 @@ i prefered to use the Stancl\Tenancy package than build the tenants from scratch
    ```
 6.go to /tenants/create to create new tenant example : test
     then the route used in postman should be like http://test.localhost:8000/
+    
 7. https://planetary-desert-393870.postman.co/workspace/New~96885989-c01f-4888-9870-bd8f7058ee5c/collection/11045064-6c4fffa2-9e92-490d-adaf-8fdcdd1f1a7e?action=share&creator=11045064
-    visit this postman collection to test the apis    
+    visit this postman collection to test the apis  
+
+8. to run test cases 
+  ```bash
+   php artisan tenancy:create-test-tenant
+   php artisan test Modules/Booking/tests
+   ``` 
 ---
 
 ## 🚀 Modules Overview
