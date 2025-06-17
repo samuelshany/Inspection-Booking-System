@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('team_id');
             $table->tinyInteger('day_of_week'); 
+            $table->date('booking_date')->nullable(); 
             $table->time('start_time');
             $table->time('end_time');
             $table->boolean('is_active')->default(true);
